@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import CarService from '../../../service/cars';
-import { Car } from '../../../service/cars';
+import CarService from '../../../service/cars/cars';
+import { Car } from '../../../service/cars/cars';
 
 interface CarState {
   cars: Car[];
@@ -22,6 +22,18 @@ export const fetchCars = createAsyncThunk(
     return response?.data;
   }
 );
+
+export const uploadCar = createAsyncThunk(
+  'cars/uploadCar',
+  async (carData, { rejectWithValue }) => {
+    try {
+      const response = await CarService.uploadCarData(carData); // carService is a class with a method to handle the API call
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+)
 
 export const carsSlice = createSlice({
   name: 'cars',

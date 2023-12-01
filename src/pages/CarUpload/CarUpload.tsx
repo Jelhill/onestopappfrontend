@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent, Fragment } from 'react';
-import { Container, Button, Box, TextField, Typography, Alert } from "@mui/material";
+import { Container, Button, Box, TextField, Typography, Alert, Grid } from "@mui/material";
 import axios from 'axios';
 import { config } from '../../config';
 import { Navbar } from '../../components/navbar';
@@ -20,6 +20,7 @@ interface CarFormData {
   image: null
 }
 
+  
 const CarUpload: React.FC = () => {
   const [formData, setFormData] = useState<CarFormData>({
     make: '',
@@ -79,123 +80,122 @@ const CarUpload: React.FC = () => {
   return (
 <Fragment>
     <Navbar />
-  <Container>
+  <Container maxWidth="md">
     <Typography variant="h4" pb={5} align="center" fontWeight="bold">
       Upload Car
     </Typography>
     <Typography pb={5} align="center">
       {error ? <Alert severity="error">{error}</Alert> : null}
     </Typography>
-    {/* Form Fields */}
-    <TextField
-      name="make"
-      label="Make"
-      value={formData.make}
-      onChange={handleChange}
-      fullWidth
-      margin="normal"
-    />
-    <TextField
-      name="model"
-      label="Model"
-      value={formData.model}
-      onChange={handleChange}
-      fullWidth
-      margin="normal"
-    />
-    <TextField
-      name="year"
-      label="Year"
-      type="number"
-      value={formData.year}
-      onChange={handleChange}
-      fullWidth
-      margin="normal"
-    />
-    <TextField
-      name="price"
-      label="Price"
-      type="number"
-      value={formData.price}
-      onChange={handleChange}
-      fullWidth
-      margin="normal"
-    />
-    <TextField
-      name="mileage"
-      label="Mileage"
-      type="number"
-      value={formData.mileage}
-      onChange={handleChange}
-      fullWidth
-      margin="normal"
-    />
-    <TextField
-      name="fuelType"
-      label="Fuel Type"
-      value={formData.fuelType}
-      onChange={handleChange}
-      fullWidth
-      margin="normal"
-    />
-    <TextField
-      name="transmission"
-      label="Transmission"
-      value={formData.transmission}
-      onChange={handleChange}
-      fullWidth
-      margin="normal"
-    />
-    <TextField
-      name="engine"
-      label="Engine"
-      value={formData.engine}
-      onChange={handleChange}
-      fullWidth
-      margin="normal"
-    />
-    <TextField
-      name="color"
-      label="Color"
-      value={formData.color}
-      onChange={handleChange}
-      fullWidth
-      margin="normal"
-    />
-    <TextField
-      name="condition"
-      label="Condition"
-      value={formData.condition}
-      onChange={handleChange}
-      fullWidth
-      margin="normal"
-    />
-    <TextField
-      name="description"
-      label="Description"
-      value={formData.description}
-      onChange={handleChange}
-      fullWidth
-      margin="normal"
-      multiline
-      rows={4}
-    />
-    <TextField
-      name="features"
-      label="Features"
-      value={formData.features}
-      onChange={handleChange}
-      fullWidth
-      margin="normal"
-      helperText="Separate features with commas"
-    />
+
+    {/* Grid container to hold form fields */}
+    <Grid container spacing={3}>
+      {/* Left column */}
+      <Grid item xs={12} md={6}>
+        <TextField
+          name="make"
+          label="Make"
+          value={formData.make}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
+        />
+        <TextField
+          name="model"
+          label="Model"
+          value={formData.model}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
+        />
+        <TextField
+          name="year"
+          label="Year"
+          type="number"
+          value={formData.year}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
+        />
+        <TextField
+          name="price"
+          label="Price"
+          type="number"
+          value={formData.price}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
+        />
+        {/* Include additional TextFields as needed */}
+      </Grid>
+
+      {/* Right column */}
+      <Grid item xs={12} md={6}>
+        <TextField
+          name="mileage"
+          label="Mileage"
+          type="number"
+          value={formData.mileage}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
+        />
+        <TextField
+          name="fuelType"
+          label="Fuel Type"
+          value={formData.fuelType}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
+        />
+        <TextField
+          name="transmission"
+          label="Transmission"
+          value={formData.transmission}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
+        />
+        {/* Continue with other fields */}
+        <TextField
+          name="description"
+          label="Description"
+          value={formData.description}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
+          multiline
+          rows={4}
+        />
+      </Grid>
+      <Grid item xs={12} sm={6} md={4}>
+        <Button
+          variant="outlined" // Make it outlined to differentiate from the submit button
+          component="label"
+          fullWidth
+          sx={{ justifyContent: "start" }}
+        >
+          Upload Image
+          <input
+            type="file"
+            hidden
+            // onChange={handleFileSelect}
+            multiple
+          />
+        </Button>
+      </Grid>
+
+      {/* Submit Button */}
+    </Grid>
+
+    {/* Submit Button */}
     <Box my={3}>
-      <Button variant="contained" onClick={handleSubmit}>
+      <Button variant="contained" onClick={handleSubmit} fullWidth>
         Upload Car
       </Button>
     </Box>
-  </Container>
-</Fragment>
+    </Container>
+    </Fragment>
   );
 }
 
