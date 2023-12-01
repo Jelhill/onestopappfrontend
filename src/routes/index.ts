@@ -1,24 +1,30 @@
-import * as reviews from '../views';
+import * as reviews from '../pages';
 
 const routData = [
     {
         id: 'route-001',
+        path: '/',
+        component: reviews.LandingPage,
+        requiresAuth: true,
+    },
+    {
+        id: 'route-002',
         path: '/login',
         component: reviews.Login,
         requiresAuth: true,
     },
     {
-        id: 'route-001',
+        id: 'route-003',
         path: '/signup',
         component: reviews.Signup,
         requiresAuth: true,
     },
-    // {
-    //     id: 'route-001',
-    //     path: '/user/dashboard/home',
-    //     component: reviews.DashBoard,
-    //     requiresAuth: true,
-    // },   
+    {
+        id: 'route-004',
+        path: '/carupload',
+        component: reviews.CarUpload,
+        requiresAuth: true,
+    },   
     // {
     //     id: 'route-001',
     //     path: '/user/dashboard/uploads',
