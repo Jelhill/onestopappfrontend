@@ -1,37 +1,41 @@
 import React, { Fragment, useState } from 'react';
 import { Container, Grid, Button, Box, TextField, Typography, Checkbox, Link, Alert } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import axios from 'axios';
-import { config } from '../../config';
+import { useNavigate, useLocation } from 'react-router-dom';
+
+import { Navbar } from '../../components/navbar';
+import { useAppDispatch } from '../../redux/hooks';
+import { login } from '../../redux/features/user/userSlice';
 
 const Login: React.FC = () => {
+
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // const navigate = useNavigate();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>, fn: React.Dispatch<React.SetStateAction<string>>) => {
-    console.log(email, password, e.target.value);
     setError("");
     fn(e.target.value);
   };
 
   const handleLogin = async () => {
     setError("");
-    console.log(email, password);
     if (!email || !password) {
       setError('Both email and password are required.');
       return;
     }
 
     try {
-      const response = await axios.post(`${config.BASE_URL}/auth/login`, {
-        email,
-        password,
-      });
-      const token = response.data.token;
-      localStorage.setItem('token', token);
-      navigate('/user/dashboard/home');
+      dispatch(login({ email, password }));
+      if (location.state && location.state.from && location.state.from === '/signup') {
+        navigate('/');
+      } else {
+        navigate(-1);
+      }    
     } catch (error) {
       setError('Login failed. Please check your credentials and try again.');
       console.error('Login error:', error);
@@ -40,6 +44,7 @@ const Login: React.FC = () => {
 
   return (
     <Fragment>
+        <Navbar />
        <Box sx={{background: 'linear-gradient(45deg, #cfbcdf, #c7ebf0)', width: "100%"}}>
         <Container>
           <Grid container  sx={{height: "100vh", alignItems: "center", justifyContent: "center",  }}>

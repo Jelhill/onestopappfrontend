@@ -1,4 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import axios from 'axios';
+import { CarData } from '../../../service/cars/carInterfaces';
 import CarService from '../../../service/cars/cars';
 import { Car } from '../../../service/cars/cars';
 
@@ -25,13 +27,16 @@ export const fetchCars = createAsyncThunk(
 
 export const uploadCar = createAsyncThunk(
   'cars/uploadCar',
-  async (carData, { rejectWithValue }) => {
+  async (carData: CarData, { rejectWithValue }) => {
     try {
       const response = await CarService.uploadCarData(carData); // carService is a class with a method to handle the API call
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(error.response?.data);
+      } else {
+        return rejectWithValue('An unexpected error occurred');
+      }    }
   }
 )
 

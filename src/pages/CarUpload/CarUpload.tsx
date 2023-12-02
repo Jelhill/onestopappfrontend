@@ -69,14 +69,12 @@ const CarUpload: React.FC = () => {
 
       const response = await axios.post(`${config.BASE_URL}/cars`, payload);
       console.log('Car data uploaded successfully:', response.data);
-      // Handle successful upload, like redirecting to a confirmation page or clearing the form
     } catch (error) {
       setError('Failed to upload car data. Please try again.');
       console.error('Upload error:', error);
     }
   };
 
-  // Form fields based on the Car object properties
   return (
 <Fragment>
     <Navbar />

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useSelector } from 'react-redux';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -14,6 +15,10 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useNavigate } from 'react-router-dom';
+import { RootState } from '../../redux/store';
+import { useEffect } from 'react';
+import { useAppDispatch } from '../../redux/hooks';
+import { fetchUserData } from '../../redux/features/user/userSlice';
 
 const pages: string[] = ['Products', 'Pricing', 'Blog'];
 const settings: string[] = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -21,6 +26,10 @@ const authPages: string[] = ['Login', 'Signup'];
 
 const ResponsiveAppBar: React.FC = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const userToken = localStorage.getItem('token'); // Get the user's token from localStorage
+
+  const user = useSelector((state: RootState) => state?.user);
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
@@ -36,7 +45,11 @@ const ResponsiveAppBar: React.FC = () => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (setting: string) => {
+    if(setting === "Logout") {
+      localStorage.removeItem("token")
+      localStorage.removeItem("user")
+    }
     setAnchorElUser(null);
   };
 
@@ -44,6 +57,12 @@ const ResponsiveAppBar: React.FC = () => {
     const route = page.toLowerCase(); // Assuming you have routes that match the lowercase page names
     navigate(`/${route}`);
   };
+
+  useEffect(() => {
+    if (userToken) {
+      dispatch(fetchUserData(userToken));
+    }
+  }, [userToken, dispatch]);
 
   return (
     <AppBar position="static">
@@ -67,7 +86,6 @@ const ResponsiveAppBar: React.FC = () => {
           >
             LOGO
           </Typography>
-
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -139,7 +157,8 @@ const ResponsiveAppBar: React.FC = () => {
             <IconButton color="inherit">
               <ShoppingCartIcon />
             </IconButton>
-            {authPages.map((page) => (
+
+            {!userToken ? authPages.map((page) => (
               <Button
                 key={page}
                 onClick={() => handleNavigate(page)}
@@ -147,13 +166,25 @@ const ResponsiveAppBar: React.FC = () => {
               >
                 {page}
               </Button>
-            ))}
+            )) : <Button
+                    sx={{ my: 2, color: 'white' }}
+                >
+            {`${user.user?.firstName} ${user.user?.lastName}` }
+          </Button>
+          }
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                {/* Display user's name if available */}
+                {userToken && userToken !== 'undefined' && user.user?.firstName ? (
+                  <Avatar alt="User" src="/static/images/avatar/2.jpg">
+                    {user.user?.firstName[0]}
+                  </Avatar>
+                ) : (
+                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                )}
               </IconButton>
             </Tooltip>
             <Menu
@@ -173,7 +204,7 @@ const ResponsiveAppBar: React.FC = () => {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem key={setting} onClick={() => handleCloseUserMenu(setting)}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}

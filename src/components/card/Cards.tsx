@@ -30,8 +30,7 @@ const MappedCards: React.FC = () => {
   const cars = useAppSelector((state) => state.cars.cars);
   const carStatus = useAppSelector((state) => state.cars.status);
   const error = useAppSelector((state) => state.cars.error);
-  console.log("state", useAppSelector((state) => state))
-  console.log("===>", cars)
+
   useEffect(() => {
     if (carStatus === 'idle') {
       dispatch(fetchCars());

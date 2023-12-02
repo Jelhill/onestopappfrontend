@@ -3,6 +3,7 @@ import { Container, Grid, Button, Box, TextField, Typography, Checkbox, Link, Al
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { config } from '../../config';
+import { Navbar } from '../../components/navbar';
 
 const Signup: React.FC = () => {
   const navigate = useNavigate()
@@ -46,7 +47,6 @@ const Signup: React.FC = () => {
     }
 
     try {
-      console.log(email, password, firstname, lastname, phone);
       const fullName = `${firstname} ${lastname}`;
       const response = await axios.post(`${config.BASE_URL}/auth/sign-up`, {
         fullName,
@@ -54,7 +54,6 @@ const Signup: React.FC = () => {
         password
       });
 
-      console.log('User registered successfully:', response.data);
       navigate('/user/dashboard/home');
     } catch (error) {
       setError('Registration failed. Please try again.');
@@ -64,6 +63,7 @@ const Signup: React.FC = () => {
 
   return (
     <Fragment>
+      <Navbar />
       <Box sx={{ background: 'linear-gradient(45deg, #cfbcdf, #c7ebf0)', width: "100%" }}>
         <Container>
           <Grid container sx={{ height: "100vh", alignItems: "center", justifyContent: "center" }}>
