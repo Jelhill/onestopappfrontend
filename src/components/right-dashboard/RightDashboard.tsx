@@ -49,7 +49,7 @@ const RightDashboard: React.FC = () => {
     console.log("handleViewDetails", transactionId)
   }
   return (
-    <Container maxWidth="xl">
+    <Container maxWidth="xl" sx={{ flexGrow: 1 }}>
     <Typography variant="h4" sx={{ mb: 5 }}>
       Welcome {`${user?.firstName} ${user?.lastName}`} 👋
     </Typography>

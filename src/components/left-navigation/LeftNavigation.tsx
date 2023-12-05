@@ -48,10 +48,11 @@ const LeftNavigation: React.FC = () => {
         variant="permanent"
         anchor="left"
         sx={{
-          width: 200,
+          width: 240, // Adjust the width as needed
           flexShrink: 0,
+          zIndex: 1000, // This ensures that the drawer will be under other content
           '& .MuiDrawer-paper': {
-            width: 200,
+            width: 240, // Match the width
             boxSizing: 'border-box',
           },
         }}
