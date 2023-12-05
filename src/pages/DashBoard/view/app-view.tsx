@@ -7,11 +7,13 @@ import { Box } from '@mui/material';
 
 const AppView: React.FC = () => {
   return (
-    <Box sx={{ display: 'flex', height: '100vh' }}>
+    <>
       <Navbar />
-      <LeftNavigation />
-      <RightDashboard />
-    </Box>
+      <Box sx={{ display: 'flex', height: '100vh' }}>
+        <LeftNavigation />
+        <RightDashboard />
+      </Box>
+    </> 
   );
 };
 
