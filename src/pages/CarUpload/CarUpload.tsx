@@ -3,6 +3,7 @@ import { Container, Button, Box, TextField, Typography, Alert, Grid } from "@mui
 import { Navbar } from '../../components/navbar';
 import { useAppDispatch } from '../../redux/hooks';
 import { uploadCar } from '../../redux/features/cars/carSlice';
+import { LeftNavigation } from '../../components/left-navigation';
 
 
 interface CarFormData {
@@ -158,6 +159,7 @@ const CarUpload: React.FC = () => {
   return (
 <Fragment>
     <Navbar />
+    <LeftNavigation />
   <Container maxWidth="md">
     <Typography variant="h4" pb={5} align="center" fontWeight="bold">
       Upload Car

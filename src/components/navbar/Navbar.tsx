@@ -70,7 +70,7 @@ const ResponsiveAppBar: React.FC = () => {
   }, [userToken, dispatch]);
 
   return (
-    <AppBar position="static">
+    <AppBar position="fixed" sx={{ width: '100%' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />

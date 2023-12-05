@@ -16,7 +16,7 @@ const LeftNavigation: React.FC = () => {
   };
   
   const navItems: NavItem[] = [
-    { title: 'Dashboard', icon: <DashboardIcon />, path: '/dashboard' },
+    { title: 'Dashboard', icon: <DashboardIcon />, path: '/seller/dashboard' },
     { title: 'Products', icon: <AddShoppingCartIcon />, path: '/products' },
     { title: 'Transactions', icon: <BarChartIcon />, path: '/transactions' },
     { title: 'Profile', icon: <PeopleIcon />, path: '/profile' },
@@ -50,14 +50,14 @@ const LeftNavigation: React.FC = () => {
         sx={{
           width: 240, // Adjust the width as needed
           flexShrink: 0,
-          zIndex: 1000, // This ensures that the drawer will be under other content
+          zIndex: 1, // This ensures that the drawer will be under other content
           '& .MuiDrawer-paper': {
             width: 240, // Match the width
             boxSizing: 'border-box',
           },
         }}
       >
-        <List>
+        <List style={{ marginTop: '150px' }}>
           {navItems.map((item) => (
             <ListItem button key={item.title} onClick={() => handleNavigation(item.path)}>
               <ListItemIcon>{item.icon}</ListItemIcon>

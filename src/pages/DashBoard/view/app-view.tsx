@@ -9,11 +9,11 @@ const AppView: React.FC = () => {
   return (
     <>
       <Navbar />
-      <Box sx={{ display: 'flex', height: '100vh' }}>
+      <Box sx={{ display: 'flex', height: 'calc(100vh - 100px)' }}> {/* Adjust the height to subtract the Navbar height */}
         <LeftNavigation />
         <RightDashboard />
       </Box>
-    </> 
+    </>
   );
 };
 
