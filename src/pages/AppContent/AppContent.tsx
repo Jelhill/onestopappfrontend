@@ -1,5 +1,5 @@
-import React, { Fragment, useEffect } from 'react';
-import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import React, { Fragment } from 'react';
+import { Routes, Route } from 'react-router-dom';
 // import Login from '../Login/Login';
 
 type RouteType = {
