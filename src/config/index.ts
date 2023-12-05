@@ -1,3 +1,3 @@
 export const config = {
-    BASE_URL: "https://e5c9-67-69-243-57.ngrok-free.app"
+    BASE_URL: "https://ttcarsale.de.r.appspot.com"
 }

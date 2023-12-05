@@ -1,8 +1,9 @@
 import axios from 'axios';
+import { config } from '../../config';
 import { AuthResponse, LoginResponseData } from './userInterface';
 
-const BASE_URL = 'http://localhost:3001/api/users';
-const BASE_URL_AUTH = 'http://localhost:3001/api/auth'
+const BASE_URL = `${config.BASE_URL}/api/users`;
+const BASE_URL_AUTH = `${config.BASE_URL}/api/auth`
 
 interface LoginData {
   email: string;

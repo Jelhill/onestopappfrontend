@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
+import { config } from '../../config';
 import { CarApiData } from './carInterfaces';
 
 export interface Car {
@@ -29,19 +30,8 @@ class CarApi {
   private readonly BASE_URL: string;
 
   constructor() {
-    this.BASE_URL = 'http://localhost:3001/api/car/'
+    this.BASE_URL = `${config.BASE_URL}/api/car`
   }
-
-  // public async getAllCars(): Promise<Car[]> {
-  //   try {
-  //     const response: AxiosResponse<Car[]> = 
-  //       await axios.get<Car[]>(`${this.BASE_URL}`);
-  //     return response.data;
-  //   } catch (error) {
-  //     console.error('Error fetching all cars:', error);
-  //     throw error;
-  //   }
-  // }
 
   public async getAllCars(): Promise<CarApiData> {
     try {
@@ -87,7 +77,7 @@ class CarApi {
 
   public async createCar(carData: Partial<Car>): Promise<Car> {
     try {
-      const response: AxiosResponse<Car> = await axios.post<Car>(this.BASE_URL, carData);
+      const response: AxiosResponse<Car> = await axios.post<Car>(`${this.BASE_URL}`, carData);
       return response.data;
     } catch (error) {
       console.error('Error creating car:', error);

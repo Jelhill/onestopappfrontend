@@ -1,11 +1,12 @@
 import axios from 'axios';
+import { config } from '../../config';
 import { TransactionData } from './transactionInterface'; // Replace with your actual path and interface
 
 class TransactionService {
     private readonly BASE_URL: string;
 
     constructor() {
-        this.BASE_URL = 'http://localhost:3001/api/transaction/';
+        this.BASE_URL = `${config.BASE_URL}/api/transaction`
     }
 
     // Function to fetch all transactions
