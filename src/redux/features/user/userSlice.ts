@@ -115,7 +115,7 @@ const userSlice = createSlice({
         }
       })
       .addCase(signup.fulfilled, (state, action) => {
-        if (action.payload.user && action.payload.token) {
+        if (action.payload.user) {
             state.user = action.payload.user;
             state.token = action.payload.token;
             state.status = 'succeeded';
@@ -124,15 +124,15 @@ const userSlice = createSlice({
             state.status = 'failed';
           }
         })
-        .addCase(fetchUserData.fulfilled, (state, action) => {
-            if (action.payload?.user) {
-              state.user = action.payload.user;
-              state.status = 'succeeded';
-            } else {
-              state.error = 'Fetch user data failed, no user returned';
-              state.status = 'failed';
-            }
-        })
+      .addCase(fetchUserData.fulfilled, (state, action) => {
+        if (action.payload?.user) {
+            state.user = action.payload.user;
+            state.status = 'succeeded';
+        } else {
+            state.error = 'Fetch user data failed, no user returned';
+            state.status = 'failed';
+        }
+      })
     },
 
 });

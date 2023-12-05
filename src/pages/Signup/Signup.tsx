@@ -1,9 +1,9 @@
 import React, { Fragment, useState, ChangeEvent } from 'react';
 import { Container, Grid, Button, Box, TextField, Typography, Checkbox, Link, Alert } from "@mui/material"
 import { useNavigate } from "react-router-dom";
-import axios from 'axios';
-import { config } from '../../config';
 import { Navbar } from '../../components/navbar';
+import { signup } from '../../redux/features/user/userSlice';
+import { useAppDispatch } from '../../redux/hooks';
 
 const Signup: React.FC = () => {
   const navigate = useNavigate()
@@ -13,6 +13,7 @@ const Signup: React.FC = () => {
   const [phone, setPhone] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const isStrongPassword = (password: string): boolean => {
     const minLength = 8;
@@ -35,26 +36,36 @@ const Signup: React.FC = () => {
     fn(e.target.value);
   }
 
+  const dispatch = useAppDispatch();
+
   const handleSignup = async (): Promise<void> => {
     if (!email || !password || !firstname || !lastname) {
       setError('All fields are required.');
       return;
     }
-
+  
     if (!isStrongPassword(password)) {
       setError('Password must be strong.');
       return;
     }
-
+  
     try {
-      const fullName = `${firstname} ${lastname}`;
-      const response = await axios.post(`${config.BASE_URL}/auth/sign-up`, {
-        fullName,
-        email,
-        password
-      });
+      const signupAction = await dispatch(signup({ 
+        firstname, 
+        lastname,
+        email, 
+        password,
+        phone,
+      }));
 
-      navigate('/user/dashboard/home');
+      if (signupAction.type === 'user/signup/fulfilled') {
+        setSuccessMessage('Signup successful! You can now log in.');
+        setTimeout(() => {
+          navigate('/login');
+        }, 2000); 
+      } else {
+        setError('Signup failed. Please try again.');
+      }
     } catch (error) {
       setError('Registration failed. Please try again.');
       console.error('Registration error:', error);
@@ -71,9 +82,14 @@ const Signup: React.FC = () => {
               <Typography variant="h4" pb={5} color="initial" align="center" fontWeight="bold">
                 Sign up
               </Typography>
-              <Typography pb={5} color="initial" align="center">
+              {/* <Typography pb={5} color="initial" align="center">
                 {error ? <Alert severity="error">{error}</Alert> : null}
-              </Typography>
+              </Typography> */}
+              <Typography pb={5} color="initial" align="center">
+              {error ? <Alert severity="error">{error}</Alert> : null}
+              {successMessage ? <Alert severity="success">{successMessage}</Alert> : null}
+            </Typography>
+
               <Box>
                 <TextField
                   id="outlined-basic"

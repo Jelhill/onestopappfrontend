@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { CarData } from '../../../service/cars/carInterfaces';
 import CarService from '../../../service/cars/cars';
 import { Car } from '../../../service/cars/cars';
 
@@ -16,7 +15,6 @@ const initialState: CarState = {
   error: null,
 };
 
-// Async thunk for fetching cars
 export const fetchCars = createAsyncThunk(
   'cars/fetchCars',
   async () => {
@@ -25,20 +23,35 @@ export const fetchCars = createAsyncThunk(
   }
 );
 
+export const fetchCarsBySeller = createAsyncThunk(
+  'cars/fetchCarsBySeller',
+  async (sellerId: string, { rejectWithValue }) => {
+    try {
+      const response = await CarService.getAllCarsBySellerId(sellerId);
+      return response?.data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+
 export const uploadCar = createAsyncThunk(
   'cars/uploadCar',
-  async (carData: CarData, { rejectWithValue }) => {
+  async (formData: FormData, { rejectWithValue }) => {
     try {
-      const response = await CarService.uploadCarData(carData); // carService is a class with a method to handle the API call
+      const response = await CarService.uploadCarData(formData);
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
         return rejectWithValue(error.response?.data);
       } else {
         return rejectWithValue('An unexpected error occurred');
-      }    }
+      }    
+    }
   }
-)
+);
+
 
 export const carsSlice = createSlice({
   name: 'cars',
@@ -56,7 +69,18 @@ export const carsSlice = createSlice({
       .addCase(fetchCars.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message || 'Something went wrong';
-      });
+      })
+      .addCase(fetchCarsBySeller.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchCarsBySeller.fulfilled, (state, action: PayloadAction<Car[]>) => {
+        state.status = 'succeeded';
+        state.cars = action.payload;
+      })
+      .addCase(fetchCarsBySeller.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message || 'Something went wrong fetching cars by seller';
+      })
   },
 });
 

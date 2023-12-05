@@ -25,12 +25,19 @@ const routData = [
         component: reviews.CarUpload,
         requiresAuth: true,
     },   
-    // {
-    //     id: 'route-001',
-    //     path: '/user/dashboard/uploads',
-    //     component: reviews.Uploads,
-    //     requiresAuth: true,
-    // }
+    {
+        id: 'route-005',
+        path: '/createseller',
+        component: reviews.CreateSeller,
+        requiresAuth: true,
+    },
+    {
+        id: 'route-006',
+        path: '/seller/dashboard/:sellerId',
+        component: reviews.AppView,
+        requiresAuth: true,
+    }
+    
 ]
 
 export default routData;

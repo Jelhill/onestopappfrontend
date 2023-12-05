@@ -28,19 +28,20 @@ class UserService {
 
   async signup(data: SignupData) {
     const { firstname, lastname, email, password, phone } = data;
+    console.log(data)
     const response = await axios.post(`${BASE_URL}`, {
-      firstname,
-      lastname,
+      firstName: firstname,
+      lastName: lastname,
       email,
       password,
       phone
     });
-    return response.data;
+    return response.data as AuthResponse;
   }
 
   async fetchUserData(token: string): Promise<AuthResponse> {
     const id = localStorage.getItem("user");
-    console.log("bearer ", token)
+    console.log("bearer ", token, id)
     const response = await axios.get(`${BASE_URL}/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,

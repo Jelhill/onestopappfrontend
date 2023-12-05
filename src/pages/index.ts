@@ -4,7 +4,7 @@ export { Login } from './Login';
 export { Signup } from './Signup';
 export { LandingPage } from './LandingPage';
 export { CarUpload } from './CarUpload';
+export { CreateSeller } from './CreateSeller';
+export { AppView } from './DashBoard/view'
 
-// export { DashBoard } from './DashBoard/Home';
-// export { Uplo=ads } from './DashBoard/Uploads';
 

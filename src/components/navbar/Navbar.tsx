@@ -27,7 +27,7 @@ const authPages: string[] = ['Login', 'Signup'];
 const ResponsiveAppBar: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const userToken = localStorage.getItem('token'); // Get the user's token from localStorage
+  const userToken = localStorage.getItem('token');
 
   const user = useSelector((state: RootState) => state?.user);
 
@@ -49,12 +49,17 @@ const ResponsiveAppBar: React.FC = () => {
     if(setting === "Logout") {
       localStorage.removeItem("token")
       localStorage.removeItem("user")
+      navigate("/")
+    }
+
+    if(setting === "Dashboard") {
+      navigate(`/seller/dashboard/${user.user?._id}`)
     }
     setAnchorElUser(null);
   };
 
   const handleNavigate = (page: string) => {
-    const route = page.toLowerCase(); // Assuming you have routes that match the lowercase page names
+    const route = page.toLowerCase();
     navigate(`/${route}`);
   };
 
@@ -69,7 +74,7 @@ const ResponsiveAppBar: React.FC = () => {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-          <Typography
+          <Button onClick={() => navigate("/")}><Typography
             variant="h6"
             noWrap
             component="a"
@@ -85,7 +90,7 @@ const ResponsiveAppBar: React.FC = () => {
             }}
           >
             LOGO
-          </Typography>
+          </Typography></Button>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -166,11 +171,17 @@ const ResponsiveAppBar: React.FC = () => {
               >
                 {page}
               </Button>
-            )) : <Button
-                    sx={{ my: 2, color: 'white' }}
-                >
-            {`${user.user?.firstName} ${user.user?.lastName}` }
-          </Button>
+            )) 
+            : 
+            <>{ 
+              !user.user?.isSeller && 
+                <Button sx={{ my: 2, color: 'white' }} onClick={() => navigate("/createseller")} >
+                  {`Become A seller` }
+                </Button> }
+
+            <Button sx={{ my: 2, color: 'white' }} >
+             {`${user.user?.firstName} ${user.user?.lastName}` }
+           </Button></>
           }
           </Box>
 

@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import { Container, Grid, Button, Box, TextField, Typography, Checkbox, Link, Alert } from "@mui/material";
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { Navbar } from '../../components/navbar';
 import { useAppDispatch } from '../../redux/hooks';
@@ -10,32 +10,46 @@ const Login: React.FC = () => {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
+  // const location = useLocation();
 
-  // const navigate = useNavigate();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
+  const [successMessage, setSuccessMessage] = useState<string>('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>, fn: React.Dispatch<React.SetStateAction<string>>) => {
     setError("");
+    setSuccessMessage("");
     fn(e.target.value);
   };
 
   const handleLogin = async () => {
     setError("");
+    setSuccessMessage("");
+
     if (!email || !password) {
       setError('Both email and password are required.');
       return;
     }
-
+  
     try {
-      dispatch(login({ email, password }));
-      if (location.state && location.state.from && location.state.from === '/signup') {
-        navigate('/');
+      const loginAction = await dispatch(login({ email, password }));
+      
+      if (loginAction.type === 'user/login/fulfilled') {
+        setSuccessMessage("Success");
+  
+        setTimeout(() => {
+          // if (location.state && location.state.from && location.state.from === '/signup') {
+          //   navigate('/');
+          // } else {
+          //   navigate(-1);
+          // }
+          navigate("/");
+
+        }, 2000);
       } else {
-        navigate(-1);
-      }    
+        setError('Login failed. Please check your credentials and try again.');
+      }
     } catch (error) {
       setError('Login failed. Please check your credentials and try again.');
       console.error('Login error:', error);
@@ -53,7 +67,8 @@ const Login: React.FC = () => {
                 Login
               </Typography>
               <Typography pb={5} color="initial" align="center">
-              { error ? <Alert severity="error">{error}</Alert> : null }
+                {error ? <Alert severity="error">{error}</Alert> : null}
+                {successMessage ? <Alert severity="success">{successMessage}</Alert> : null}
               </Typography>
               <Box>
                 <TextField 

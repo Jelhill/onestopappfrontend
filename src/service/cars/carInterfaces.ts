@@ -34,5 +34,5 @@ export interface Car {
     condition?: string;
     description?: string;
     features?: string[];
-    imageFiles: File[];
+    image: File[];
   }
