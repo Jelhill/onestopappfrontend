@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { AuthResponse } from './userInterface';
+import { AuthResponse, LoginResponseData } from './userInterface';
 
 const BASE_URL = 'http://localhost:3001/api/users';
 const BASE_URL_AUTH = 'http://localhost:3001/api/auth'
@@ -36,10 +36,10 @@ class UserService {
       password,
       phone
     });
-    return response.data as AuthResponse;
+    return response.data as LoginResponseData;
   }
 
-  async fetchUserData(token: string): Promise<AuthResponse> {
+  async fetchUserData(token: string): Promise<LoginResponseData> {
     const id = localStorage.getItem("user");
     console.log("bearer ", token, id)
     const response = await axios.get(`${BASE_URL}/${id}`, {
@@ -47,7 +47,7 @@ class UserService {
         Authorization: `Bearer ${token}`,
       },
     });
-    return response.data as AuthResponse;
+    return response.data as LoginResponseData;
   }
 }
 

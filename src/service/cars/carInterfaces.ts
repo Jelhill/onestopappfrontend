@@ -36,3 +36,9 @@ export interface Car {
     features?: string[];
     image: File[];
   }
+
+  export interface CarApiData {
+    success: boolean,
+    data: [Car],
+    message: string
+  }

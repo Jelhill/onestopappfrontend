@@ -7,7 +7,7 @@ import PeopleIcon from '@mui/icons-material/People';
 import { useNavigate } from 'react-router-dom';
 
 const LeftNavigation: React.FC = () => {
-  const [selectedTab, setSelectedTab] = useState<string>('dashboard');
+  const [selectedTab] = useState<string>('dashboard');
   const navigate = useNavigate()
   type NavItem = {
     title: string;

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
+import { fetchCars } from '../../redux/features/cars/carSlice';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import BasicCard from './BasicCard';
-import { fetchCars } from '../../redux/features/cars/carSlice';
 
 export interface Car {
   id: string;
@@ -37,7 +37,6 @@ const MappedCards: React.FC = () => {
     }
   }, [carStatus, dispatch]);
 
-  // Render UI based on the state
   if (carStatus === 'loading') {
     return <div>Loading...</div>;
   } else if (carStatus === 'failed') {

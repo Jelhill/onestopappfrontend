@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
+import { CarApiData } from './carInterfaces';
 
 export interface Car {
     id: string;
@@ -22,6 +23,8 @@ export interface Car {
     updated: Date;
   }
 
+
+
 class CarApi {
   private readonly BASE_URL: string;
 
@@ -29,10 +32,21 @@ class CarApi {
     this.BASE_URL = 'http://localhost:3001/api/car/'
   }
 
-  public async getAllCars(): Promise<Car[]> {
+  // public async getAllCars(): Promise<Car[]> {
+  //   try {
+  //     const response: AxiosResponse<Car[]> = 
+  //       await axios.get<Car[]>(`${this.BASE_URL}`);
+  //     return response.data;
+  //   } catch (error) {
+  //     console.error('Error fetching all cars:', error);
+  //     throw error;
+  //   }
+  // }
+
+  public async getAllCars(): Promise<CarApiData> {
     try {
-      const response: AxiosResponse<Car[]> = 
-        await axios.get<Car[]>(`${this.BASE_URL}`);
+      const response: AxiosResponse<CarApiData> = 
+        await axios.get(`${this.BASE_URL}`);
       return response.data;
     } catch (error) {
       console.error('Error fetching all cars:', error);
@@ -61,9 +75,9 @@ class CarApi {
     }
   }
 
-  public async getAllCarsBySellerId(sellerId: string): Promise<Car | null> {
+  public async getAllCarsBySellerId(sellerId: string): Promise<CarApiData | null> {
     try {
-      const response: AxiosResponse<Car> = await axios.get<Car>(`${this.BASE_URL}/seller/${sellerId}`);
+      const response: AxiosResponse<CarApiData> = await axios.get<CarApiData>(`${this.BASE_URL}/seller/${sellerId}`);
       return response.data;
     } catch (error) {
       console.error('Error fetching car by ID:', error);

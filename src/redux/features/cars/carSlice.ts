@@ -19,7 +19,7 @@ export const fetchCars = createAsyncThunk(
   'cars/fetchCars',
   async () => {
     const response = await CarService.getAllCars();
-    return response?.data;
+    return response.data;
   }
 );
 
@@ -30,7 +30,11 @@ export const fetchCarsBySeller = createAsyncThunk(
       const response = await CarService.getAllCarsBySellerId(sellerId);
       return response?.data;
     } catch (error) {
-      return rejectWithValue(error.message);
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(error.response?.data);
+      } else {
+        return rejectWithValue('An unexpected error occurred');
+      }
     }
   }
 );
@@ -73,9 +77,9 @@ export const carsSlice = createSlice({
       .addCase(fetchCarsBySeller.pending, (state) => {
         state.status = 'loading';
       })
-      .addCase(fetchCarsBySeller.fulfilled, (state, action: PayloadAction<Car[]>) => {
+      .addCase(fetchCarsBySeller.fulfilled, (state, action: PayloadAction<Car[] | undefined>) => {
         state.status = 'succeeded';
-        state.cars = action.payload;
+        state.cars = action.payload || [];
       })
       .addCase(fetchCarsBySeller.rejected, (state, action) => {
         state.status = 'failed';
