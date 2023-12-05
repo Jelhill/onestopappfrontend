@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Drawer, List, ListItem, Box, Typography, ListItemIcon, ListItemText } from '@mui/material';
+import React from 'react';
+import { Drawer, List, ListItem, Box, ListItemIcon, ListItemText } from '@mui/material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart'; // Corrected the import
 import BarChartIcon from '@mui/icons-material/BarChart';
@@ -7,7 +7,7 @@ import PeopleIcon from '@mui/icons-material/People';
 import { useNavigate } from 'react-router-dom';
 
 const LeftNavigation: React.FC = () => {
-  const [selectedTab] = useState<string>('dashboard');
+  // const [selectedTab] = useState<string>('dashboard');
   const navigate = useNavigate()
   type NavItem = {
     title: string;
@@ -27,20 +27,20 @@ const LeftNavigation: React.FC = () => {
     navigate(path);
   };
 
-  const renderMainContent = () => {
-    switch (selectedTab) {
-      case 'dashboard':
-        return <Typography>Dashboard Content</Typography>;
-      case 'products':
-        return <Typography>Products Content</Typography>;
-      case 'transactions':
-        return <Typography>Transaction History Content</Typography>;
-      case 'profile':
-        return <Typography>Profile Content</Typography>;
-      default:
-        return <Typography>Select a category</Typography>;
-    }
-  };
+  // const renderMainContent = () => {
+  //   switch (selectedTab) {
+  //     case 'dashboard':
+  //       return <Typography>Dashboard Content</Typography>;
+  //     case 'products':
+  //       return <Typography>Products Content</Typography>;
+  //     case 'transactions':
+  //       return <Typography>Transaction History Content</Typography>;
+  //     case 'profile':
+  //       return <Typography>Profile Content</Typography>;
+  //     default:
+  //       return <Typography>Select a category</Typography>;
+  //   }
+  // };
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -66,9 +66,9 @@ const LeftNavigation: React.FC = () => {
           ))}
         </List>
       </Drawer>
-      <Box sx={{ flexGrow: 1, p: 3 }}>
+      {/* <Box sx={{ flexGrow: 1, p: 3 }}>
         {renderMainContent()}
-      </Box>
+      </Box> */}
     </Box>
   );
 }
