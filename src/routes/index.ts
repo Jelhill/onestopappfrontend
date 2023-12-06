@@ -5,19 +5,19 @@ const routData = [
         id: 'route-001',
         path: '/',
         component: reviews.LandingPage,
-        requiresAuth: true,
+        requiresAuth: false,
     },
     {
         id: 'route-002',
         path: '/login',
         component: reviews.Login,
-        requiresAuth: true,
+        requiresAuth: false,
     },
     {
         id: 'route-003',
         path: '/signup',
         component: reviews.Signup,
-        requiresAuth: true,
+        requiresAuth: false,
     },
     {
         id: 'route-004',
@@ -36,6 +36,18 @@ const routData = [
         path: '/seller/dashboard/:sellerId',
         component: reviews.AppView,
         requiresAuth: true,
+    },
+    {
+        id: 'route-007',
+        path: '/page-not-found',
+        component: reviews.NotFound,
+        requiresAuth: false,
+    },
+    {
+        id: 'route-008',
+        path: '/unauthorized',
+        component: reviews.Unauthorized,
+        requiresAuth: false,
     }
     
 ]

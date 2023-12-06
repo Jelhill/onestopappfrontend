@@ -3,8 +3,10 @@ import { Container, Grid, Button, Box, TextField, Typography, Checkbox, Link, Al
 import { useNavigate } from 'react-router-dom';
 
 import { Navbar } from '../../components/navbar';
-import { useAppDispatch } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { login } from '../../redux/features/user/userSlice';
+import { RootState } from '../../redux/store';
+import { setAuthenticated } from '../../redux/features/auth/authSlice';
 
 const Login: React.FC = () => {
 
@@ -16,6 +18,7 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [successMessage, setSuccessMessage] = useState<string>('');
+  const user = useAppSelector((state: RootState) => state?.user);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>, fn: React.Dispatch<React.SetStateAction<string>>) => {
     setError("");
@@ -37,16 +40,16 @@ const Login: React.FC = () => {
       
       if (loginAction.type === 'user/login/fulfilled') {
         setSuccessMessage("Success");
-  
+        dispatch(setAuthenticated(true));
         setTimeout(() => {
-          // if (location.state && location.state.from && location.state.from === '/signup') {
-          //   navigate('/');
-          // } else {
-          //   navigate(-1);
-          // }
+          if(user.user?.isSeller) {
+            navigate(`/seller/dashboard/${user.user?._id}`);
+            return
+          }
           navigate("/");
 
         }, 2000);
+
       } else {
         setError('Login failed. Please check your credentials and try again.');
       }

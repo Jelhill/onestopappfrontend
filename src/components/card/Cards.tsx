@@ -44,7 +44,7 @@ const MappedCards: React.FC = () => {
   }
 
   return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+    <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', marginTop: "100px"}}>
       {cars.map((car) => (
         <BasicCard key={car.id} car={car} />
       ))}

@@ -1,26 +1,26 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-// import Login from '../Login/Login';
+import withAuth from '../../components/WithAuth';
 
-type RouteType = {
+interface RouteType {
+  id: string;
   path: string;
   component: React.ComponentType;
-};
+  requiresAuth: boolean;
+}
 
 interface AppContentProps {
   routes: RouteType[];
 }
 
 const AppContent: React.FC<AppContentProps> = ({ routes }) => {
-
   return (
-    <Fragment>
-      <Routes>
-        {routes.map((route, index) => (
-          <Route key={index} path={route.path} element={<route.component />} />
-        ))}
-      </Routes>
-    </Fragment>
+    <Routes>
+      {routes.map((route) => {
+        const Component = withAuth(route.component, route.requiresAuth);
+        return <Route key={route.id} path={route.path} element={<Component />} />;
+      })}
+    </Routes>
   );
 };
 

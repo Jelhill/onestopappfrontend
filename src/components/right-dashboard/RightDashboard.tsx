@@ -50,7 +50,7 @@ const RightDashboard: React.FC = () => {
   }
   return (
     <Container maxWidth="xl" sx={{ flexGrow: 1 }} style={{ marginTop: '100px' }}>
-    <Typography variant="h4" sx={{ mb: 5 }}>
+    <Typography variant="h6" sx={{ mb: 5 }}>
       Welcome {`${user?.firstName} ${user?.lastName}`} 👋
     </Typography>
 

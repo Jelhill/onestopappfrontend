@@ -19,17 +19,23 @@ import { RootState } from '../../redux/store';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../redux/hooks';
 import { fetchUserData } from '../../redux/features/user/userSlice';
+import { setAuthenticated } from '../../redux/features/auth/authSlice';
 
 const pages: string[] = ['Products', 'Pricing', 'Blog'];
-const settings: string[] = ['Profile', 'Account', 'Dashboard', 'Logout'];
+let settings: string[] = ['Profile', 'Account', 'Dashboard', 'Logout'];
 const authPages: string[] = ['Login', 'Signup'];
 
 const ResponsiveAppBar: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const userToken = localStorage.getItem('token');
-
   const user = useSelector((state: RootState) => state?.user);
+  console.log(user)
+  if(!user.user?.isSeller) {
+    settings = ['Profile', 'Account', 'Logout']
+  } else {
+    settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+  }
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
@@ -49,6 +55,7 @@ const ResponsiveAppBar: React.FC = () => {
     if(setting === "Logout") {
       localStorage.removeItem("token")
       localStorage.removeItem("user")
+      dispatch(setAuthenticated(false));
       navigate("/")
     }
 
@@ -186,8 +193,8 @@ const ResponsiveAppBar: React.FC = () => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+            { userToken ? <Tooltip title="Open settings">
+             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 {/* Display user's name if available */}
                 {userToken && userToken !== 'undefined' && user.user?.firstName ? (
                   <Avatar alt="User" src="/static/images/avatar/2.jpg">
@@ -197,7 +204,7 @@ const ResponsiveAppBar: React.FC = () => {
                   <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
                 )}
               </IconButton>
-            </Tooltip>
+            </Tooltip> : null }
             <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"

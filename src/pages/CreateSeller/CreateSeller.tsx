@@ -1,9 +1,10 @@
 import React, { useState, ChangeEvent, Fragment } from 'react';
 import { Container, Button, Box, TextField, Typography, Alert, Grid } from "@mui/material";
 import { Navbar } from '../../components/navbar';
-import { useAppDispatch } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { createSeller } from '../../redux/features/seller/sellerSlice';
 import { useNavigate } from 'react-router-dom';
+import { RootState } from '../../redux/store';
 
 interface SellerFormData {
   companyName: string;
@@ -39,6 +40,7 @@ const CreateSeller: React.FC = () => {
   });
   const [error, setError] = useState<string>('');
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const user = useAppSelector((state: RootState) => state?.user);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setError("");
@@ -78,7 +80,7 @@ const CreateSeller: React.FC = () => {
       if (createSeller.fulfilled.match(response)) {
         setSuccessMessage('Seller created successfully.');
         console.log('Seller data uploaded successfully:');
-        navigate("/seller/dashboard")
+        navigate(`/seller/dashboard/${user.user?._id}`)
       } else {
         setError('Failed to create seller. Please try again.');
       }    } catch (error) {
@@ -91,7 +93,7 @@ const CreateSeller: React.FC = () => {
     <Fragment>
       <Navbar />
       <Container maxWidth="md">
-        <Typography variant="h4" pb={5} align="center" fontWeight="bold">
+        <Typography variant="h4" pb={5} align="center" fontWeight="bold" marginTop={15}>
           Signup as a Seller
         </Typography>
         <Typography pb={5} color="initial" align="center">

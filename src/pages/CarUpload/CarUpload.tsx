@@ -4,6 +4,7 @@ import { Navbar } from '../../components/navbar';
 import { useAppDispatch } from '../../redux/hooks';
 import { uploadCar } from '../../redux/features/cars/carSlice';
 import { LeftNavigation } from '../../components/left-navigation';
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 interface CarFormData {
@@ -26,6 +27,7 @@ interface CarFormData {
 const CarUpload: React.FC = () => {
   const dispatch = useAppDispatch();
   const [fileName, setFileName] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [formData, setFormData] = useState<CarFormData>({
     make: '',
     model: '',
@@ -45,13 +47,11 @@ const CarUpload: React.FC = () => {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const validateFormData = (): string | null => {
-    // Check for required fields
     if (!formData.make) return 'Make is required.';
     if (!formData.model) return 'Model is required.';
     if (!formData.year) return 'Year is required.';
     if (!formData.price) return 'Price is required.';
     
-    // Additional validation rules...
     if (parseInt(formData.year) < 1900 || parseInt(formData.year) > new Date().getFullYear()) {
       return 'Please enter a valid year.';
     }
@@ -107,6 +107,8 @@ const CarUpload: React.FC = () => {
       return;
     }
 
+    setIsLoading(true);
+
     try {
       const formDataToSend = new FormData();
       Object.keys(formData).forEach((key) => {
@@ -153,6 +155,8 @@ const CarUpload: React.FC = () => {
     } catch (error) {
       setError('Failed to upload car data. Please try again.');
       console.error('Upload error:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -161,7 +165,7 @@ const CarUpload: React.FC = () => {
     <Navbar />
     <LeftNavigation />
   <Container maxWidth="md">
-    <Typography variant="h4" pb={5} align="center" fontWeight="bold">
+    <Typography variant="h4" pb={5} align="center" fontWeight="bold" marginTop={12}>
       Upload Car
     </Typography>
     <Typography pb={5} align="center">
@@ -170,7 +174,6 @@ const CarUpload: React.FC = () => {
     </Typography>
 
     <Grid container spacing={3}>
-      {/* Left column */}
       <Grid item xs={12} md={6}>
         <TextField
           name="make"
@@ -297,10 +300,10 @@ const CarUpload: React.FC = () => {
     </Grid>
 
     <Box my={3}>
-      <Button variant="contained" onClick={handleSubmit} fullWidth>
-        Upload Car
-      </Button>
-    </Box>
+    <Button variant="contained" onClick={handleSubmit} fullWidth disabled={isLoading}>
+      {isLoading ? <CircularProgress size={24} /> : 'Upload Car'}
+    </Button>
+  </Box>
     </Container>
     </Fragment>
   );

@@ -5,6 +5,8 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart'; // Correc
 import BarChartIcon from '@mui/icons-material/BarChart';
 import PeopleIcon from '@mui/icons-material/People';
 import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../../redux/hooks';
+import { RootState } from '../../redux/store';
 
 const LeftNavigation: React.FC = () => {
   // const [selectedTab] = useState<string>('dashboard');
@@ -15,8 +17,10 @@ const LeftNavigation: React.FC = () => {
     path: string;
   };
   
+  const user = useAppSelector((state: RootState) => state?.user);
+
   const navItems: NavItem[] = [
-    { title: 'Dashboard', icon: <DashboardIcon />, path: '/seller/dashboard' },
+    { title: 'Dashboard', icon: <DashboardIcon />, path: `/seller/dashboard/${user.user?._id}` },
     { title: 'Products', icon: <AddShoppingCartIcon />, path: '/products' },
     { title: 'Transactions', icon: <BarChartIcon />, path: '/transactions' },
     { title: 'Profile', icon: <PeopleIcon />, path: '/profile' },
@@ -27,32 +31,17 @@ const LeftNavigation: React.FC = () => {
     navigate(path);
   };
 
-  // const renderMainContent = () => {
-  //   switch (selectedTab) {
-  //     case 'dashboard':
-  //       return <Typography>Dashboard Content</Typography>;
-  //     case 'products':
-  //       return <Typography>Products Content</Typography>;
-  //     case 'transactions':
-  //       return <Typography>Transaction History Content</Typography>;
-  //     case 'profile':
-  //       return <Typography>Profile Content</Typography>;
-  //     default:
-  //       return <Typography>Select a category</Typography>;
-  //   }
-  // };
-
   return (
     <Box sx={{ display: 'flex' }}>
       <Drawer
         variant="permanent"
         anchor="left"
         sx={{
-          width: 240, // Adjust the width as needed
+          width: 240,
           flexShrink: 0,
-          zIndex: 1, // This ensures that the drawer will be under other content
+          zIndex: 1,
           '& .MuiDrawer-paper': {
-            width: 240, // Match the width
+            width: 240,
             boxSizing: 'border-box',
           },
         }}
@@ -66,9 +55,6 @@ const LeftNavigation: React.FC = () => {
           ))}
         </List>
       </Drawer>
-      {/* <Box sx={{ flexGrow: 1, p: 3 }}>
-        {renderMainContent()}
-      </Box> */}
     </Box>
   );
 }
