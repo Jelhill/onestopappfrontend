@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent, Fragment } from 'react';
-import { Container, Button, Box, TextField, Typography, Alert, Grid } from "@mui/material";
+import { Container, Button, Box, TextField, Typography, Alert, Grid, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from "@mui/material";
 import { Navbar } from '../../components/navbar';
 import { useAppDispatch } from '../../redux/hooks';
 import { uploadCar } from '../../redux/features/cars/carSlice';
@@ -41,50 +41,53 @@ const CarUpload: React.FC = () => {
     condition: '',
     description: '',
     features: '',
-    image: null
+    image: null,
   });
   const [error, setError] = useState<string>('');
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-  const validateFormData = (): string | null => {
-    if (!formData.make) return 'Make is required.';
-    if (!formData.model) return 'Model is required.';
-    if (!formData.year) return 'Year is required.';
-    if (!formData.price) return 'Price is required.';
-    
-    if (parseInt(formData.year) < 1900 || parseInt(formData.year) > new Date().getFullYear()) {
-      return 'Please enter a valid year.';
-    }
-    if (parseFloat(formData.price) <= 0) {
-      return 'Please enter a valid price.';
-    }
-    if (formData.features && !formData.features.split(',').every(feature => feature.trim() !== '')) {
-      return 'Please enter valid features.';
-    }
-    if (!formData.image) {
-      return 'Image is required.';
-    } else {
-      const validImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
-      if (!validImageTypes.includes(formData.image.type)) {
-        return 'Invalid image type. Allowed types are JPEG, PNG, GIF.';
-      }
-  
-      const maxFileSize = 5 * 1024 * 1024; // 5MB in bytes
-      if (formData.image.size > maxFileSize) {
-        return 'Image is too large. Maximum size is 5MB.';
-      }
-    }
-    return null;
-  };
+  const carMakes = ['Toyota', 'Ford', 'Honda', 'BMW', 'Audi'];
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setError("");
-    setSuccessMessage("");
-    const { name, value } = e.target;
-    setFormData(prevFormData => ({
-      ...prevFormData,
-      [name]: value
-    }));
+interface CarModels {
+  [key: string]: string[];
+}
+
+const carModels: CarModels = {
+  Toyota: ['Corolla', 'Camry', 'RAV4', 'Highlander'],
+  Ford: ['Focus', 'Fiesta', 'Mustang', 'Explorer'],
+  Honda: ['Civic', 'Accord', 'CR-V', 'Pilot'],
+  BMW: ['3 Series', '5 Series', 'X3', 'X5'],
+  Audi: ['A4', 'A6', 'Q5', 'Q7'],
+};
+const validateFormData = (): string | null => {
+  if (!formData.make) return 'Make is required.';
+  if (!formData.model) return 'Model is required.';
+  if (!formData.year) return 'Year is required.';
+  if (!formData.price) return 'Price is required.';
+  
+  if (parseInt(formData.year) < 1900 || parseInt(formData.year) > new Date().getFullYear()) {
+    return 'Please enter a valid year.';
+  }
+  if (parseFloat(formData.price) <= 0) {
+    return 'Please enter a valid price.';
+  }
+  if (formData.features && !formData.features.split(',').every(feature => feature.trim() !== '')) {
+    return 'Please enter valid features.';
+  }
+  if (!formData.image) {
+    return 'Image is required.';
+  } else {
+    const validImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
+    if (!validImageTypes.includes(formData.image.type)) {
+      return 'Invalid image type. Allowed types are JPEG, PNG, GIF.';
+    }
+
+    const maxFileSize = 5 * 1024 * 1024; // 5MB in bytes
+    if (formData.image.size > maxFileSize) {
+      return 'Image is too large. Maximum size is 5MB.';
+    }
+  }
+    return null;
   };
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -100,6 +103,38 @@ const CarUpload: React.FC = () => {
     }
   };
 
+
+  const handleMakeChange = (event: SelectChangeEvent<string>) => {
+    setFormData({
+      ...formData,
+      make: event.target.value as string,
+      model: '', // Reset model when make changes
+    });
+  };
+
+const handleModelChange = (event: SelectChangeEvent<string>) => {
+  setFormData({
+    ...formData,
+    model: event.target.value as string,
+  });
+};
+
+
+const handleSelectChange = (event: SelectChangeEvent<string>) => {
+  const { name, value } = event.target;
+  setFormData(prevFormData => ({
+    ...prevFormData,
+    [name]: value
+  }));
+};
+
+const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const { name, value } = event.target;
+  setFormData(prevFormData => ({
+    ...prevFormData,
+    [name]: value
+  }));
+};
   const handleSubmit = async (): Promise<void> => {
     const validationError = validateFormData();
     if (validationError) {
@@ -143,7 +178,7 @@ const CarUpload: React.FC = () => {
             condition: '',
             description: '',
             features: '',
-            image: null
+            image: null,
           });
           setFileName('');
         })
@@ -175,28 +210,37 @@ const CarUpload: React.FC = () => {
 
     <Grid container spacing={3}>
       <Grid item xs={12} md={6}>
-        <TextField
-          name="make"
-          label="Make"
-          value={formData.make}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-        />
-        <TextField
-          name="model"
-          label="Model"
-          value={formData.model}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-        />
+        <FormControl fullWidth margin="normal">
+          <InputLabel>Make</InputLabel>
+          <Select
+            value={formData.make}
+            label="Make"
+            onChange={handleMakeChange}
+          >
+            {carMakes.map((make) => (
+              <MenuItem key={make} value={make}>{make}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <FormControl fullWidth margin="normal">
+          <InputLabel>Model</InputLabel>
+          <Select
+            value={formData.model}
+            label="Model"
+            onChange={handleModelChange}
+            disabled={!formData.make}
+          >
+            {formData.make && carModels[formData.make].map((model) => (
+              <MenuItem key={model} value={model}>{model}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
         <TextField
           name="year"
           label="Year"
           type="number"
           value={formData.year}
-          onChange={handleChange}
+          onChange={handleInputChange}
           fullWidth
           margin="normal"
         />
@@ -205,7 +249,7 @@ const CarUpload: React.FC = () => {
           label="Price"
           type="number"
           value={formData.price}
-          onChange={handleChange}
+          onChange={handleInputChange}
           fullWidth
           margin="normal"
         />
@@ -213,7 +257,7 @@ const CarUpload: React.FC = () => {
           name="engine"
           label="Engine"
           value={formData.engine}
-          onChange={handleChange}
+          onChange={handleInputChange}
           fullWidth
           margin="normal"
         />
@@ -221,7 +265,7 @@ const CarUpload: React.FC = () => {
           name="color"
           label="Color"
           value={formData.color}
-          onChange={handleChange}
+          onChange={handleInputChange}
           fullWidth
           margin="normal"
         />
@@ -233,31 +277,45 @@ const CarUpload: React.FC = () => {
           label="Mileage"
           type="number"
           value={formData.mileage}
-          onChange={handleChange}
+          onChange={handleInputChange}
           fullWidth
           margin="normal"
         />
-        <TextField
-          name="fuelType"
-          label="Fuel Type"
-          value={formData.fuelType}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-        />
-        <TextField
-          name="transmission"
-          label="Transmission"
-          value={formData.transmission}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-        />
+        <FormControl fullWidth margin='normal'>
+          <InputLabel id="fuel-type-label">Fuel Type</InputLabel>
+          <Select
+            labelId="fuel-type-label"
+            id="fuel-type-select"
+            name="fuelType"
+            value={formData.fuelType}
+            label="Fuel Type"
+            onChange={handleSelectChange}
+          >
+            <MenuItem value="Petrol">Petrol</MenuItem>
+            <MenuItem value="Diesel">Diesel</MenuItem>
+            <MenuItem value="Electric">Electric</MenuItem>
+            <MenuItem value="Hybrid">Hybrid</MenuItem>
+          </Select>
+        </FormControl>
+        <FormControl fullWidth margin='normal'>
+          <InputLabel id="transmission-label">Transmission</InputLabel>
+          <Select
+            labelId="transmission-label"
+            id="transmission-select"
+            name="transmission"
+            value={formData.transmission}
+            label="Transmission"
+            onChange={handleSelectChange}
+          >
+            <MenuItem value="Automatic">Automatic</MenuItem>
+            <MenuItem value="Manual">Manual</MenuItem>
+          </Select>
+        </FormControl>
         <TextField
           name="condition"
           label="Condition"
           value={formData.condition}
-          onChange={handleChange}
+          onChange={handleInputChange}
           fullWidth
           margin="normal"
         />
@@ -265,7 +323,7 @@ const CarUpload: React.FC = () => {
           name="features"
           label="Features (comma-separated)"
           value={formData.features}
-          onChange={handleChange}
+          onChange={handleInputChange}
           fullWidth
           margin="normal"
         />
@@ -273,7 +331,7 @@ const CarUpload: React.FC = () => {
           name="description"
           label="Description"
           value={formData.description}
-          onChange={handleChange}
+          onChange={handleInputChange}
           fullWidth
           margin="normal"
           multiline
