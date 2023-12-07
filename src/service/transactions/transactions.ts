@@ -38,7 +38,6 @@ class TransactionService {
                 Authorization: `Bearer ${token}`,
             },
         });
-        console.log("response", response)
         return response.data;
     }
     // Function to create a new transaction

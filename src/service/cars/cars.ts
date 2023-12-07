@@ -46,7 +46,6 @@ class CarApi {
 
   async uploadCarData(carData: FormData) {
     const token = localStorage.getItem("token")
-    console.log("carData", carData)
     const response = await axios.post(`${this.BASE_URL}`, carData, {
       headers: {
         Authorization: `Bearer ${token}`,

@@ -45,9 +45,6 @@ const RightDashboard: React.FC = () => {
     }
   }, [dispatch, sellerId]);
   
-  // const handleViewDetails = (transactionId: string) => {
-  // }
-
   return (
     <Container maxWidth="xl" sx={{ flexGrow: 1 }} style={{ marginTop: '100px' }}>
     <Typography variant="h6" sx={{ mb: 5 }}>

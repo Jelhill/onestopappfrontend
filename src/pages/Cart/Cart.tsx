@@ -23,7 +23,6 @@ const CartPage: React.FC = () => {
   const cartItems = useAppSelector((state: RootState) => state.cart.items);
 
   useEffect(() => {
-    console.log("Triggered")
     dispatch(fetchCartItems());
   }, [dispatch]);
 
