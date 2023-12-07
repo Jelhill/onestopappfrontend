@@ -1,8 +1,7 @@
 import React from 'react';
 import { Drawer, List, ListItem, Box, ListItemIcon, ListItemText } from '@mui/material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart'; // Corrected the import
-import BarChartIcon from '@mui/icons-material/BarChart';
+// import BarChartIcon from '@mui/icons-material/BarChart';
 import PeopleIcon from '@mui/icons-material/People';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../redux/hooks';
@@ -21,9 +20,9 @@ const LeftNavigation: React.FC = () => {
 
   const navItems: NavItem[] = [
     { title: 'Dashboard', icon: <DashboardIcon />, path: `/seller/dashboard/${user.user?._id}` },
-    { title: 'Products', icon: <AddShoppingCartIcon />, path: '/products' },
-    { title: 'Transactions', icon: <BarChartIcon />, path: '/transactions' },
-    { title: 'Profile', icon: <PeopleIcon />, path: '/profile' },
+    // { title: 'Products', icon: <AddShoppingCartIcon />, path: '/products' },
+    // { title: 'Transactions', icon: <BarChartIcon />, path: '/transactions' },
+    // { title: 'Profile', icon: <PeopleIcon />, path: '/profile' },
     { title: 'Upload Car', icon: <PeopleIcon />, path: '/carupload' },
   ];
 
