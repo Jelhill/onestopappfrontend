@@ -8,5 +8,6 @@ export { CreateSeller } from './CreateSeller';
 export { AppView } from './DashBoard/view'
 export { NotFound } from './404'
 export { Unauthorized } from './Unauthorized'
+export { Cart } from './Cart'
 
 

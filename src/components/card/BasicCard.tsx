@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions } from '@mui/material';
 
 interface Car {
-  id: string;
+  _id: string;
   sellerId: string;
   make: string;
   model: string;
@@ -29,33 +29,35 @@ interface Car {
 
 interface Props {
   car: Car;
+  onViewCarInfo: () => void; // Add this line
 }
 
-const BasicCard: React.FC<Props> = ({ car }) => {
+
+const BasicCard: React.FC<Props> = ({ car, onViewCarInfo }) => {
   return (
     <Card sx={{ maxWidth: 250, margin: 5 }}>
-      <CardActionArea>
-        <CardMedia
-          component="img"
-          height="140"
-          image={car?.imageIds[0]}
-          alt={`${car.make} ${car.model}`}
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {car.make} {car.model}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {car.description}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-        <Button size="small" color="primary">
-          View Car Info
-        </Button>
-      </CardActions>
-    </Card>
+    <CardActionArea>
+      <CardMedia
+        component="img"
+        height="140"
+        image={car?.imageIds[0]} // Make sure this is the correct path to the image
+        alt={`${car.make} ${car.model}`}
+      />
+      <CardContent>
+        <Typography gutterBottom variant="h5" component="div">
+          {car.make} {car.model}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          {car.description}
+        </Typography>
+      </CardContent>
+    </CardActionArea>
+    <CardActions>
+      <Button size="small" color="primary" onClick={onViewCarInfo}>
+        View Car Info
+      </Button>
+    </CardActions>
+  </Card>
   );
 };
 

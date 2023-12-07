@@ -20,6 +20,8 @@ import { useEffect } from 'react';
 import { useAppDispatch } from '../../redux/hooks';
 import { fetchUserData } from '../../redux/features/user/userSlice';
 import { setAuthenticated } from '../../redux/features/auth/authSlice';
+import Badge from '@mui/material/Badge';
+import { isAuthenticated } from '../../utils/auth';
 
 const pages: string[] = ['Products', 'Pricing', 'Blog'];
 let settings: string[] = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -30,7 +32,8 @@ const ResponsiveAppBar: React.FC = () => {
   const dispatch = useAppDispatch();
   const userToken = localStorage.getItem('token');
   const user = useSelector((state: RootState) => state?.user);
-  console.log(user)
+  const cartItems = useSelector((state: RootState) => state.cart.items); // Assuming you have a cart slice with items
+
   if(!user.user?.isSeller) {
     settings = ['Profile', 'Account', 'Logout']
   } else {
@@ -85,14 +88,13 @@ const ResponsiveAppBar: React.FC = () => {
             variant="h6"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
-              color: 'inherit',
+              color: 'white',
               textDecoration: 'none',
             }}
           >
@@ -166,9 +168,12 @@ const ResponsiveAppBar: React.FC = () => {
             ))}
           </Box>
           <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', gap: 2 }}>
-            <IconButton color="inherit">
+          { isAuthenticated() ?
+          <IconButton color="inherit" onClick={() => navigate("/cart")}>
+            <Badge badgeContent={cartItems.length} color="error">
               <ShoppingCartIcon />
-            </IconButton>
+            </Badge>
+          </IconButton> : null }
 
             {!userToken ? authPages.map((page) => (
               <Button

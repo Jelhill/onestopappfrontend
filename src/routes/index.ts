@@ -48,6 +48,12 @@ const routData = [
         path: '/unauthorized',
         component: reviews.Unauthorized,
         requiresAuth: false,
+    },
+    {
+        id: 'route-009',
+        path: '/cart',
+        component: reviews.Cart,
+        requiresAuth: true,
     }
     
 ]

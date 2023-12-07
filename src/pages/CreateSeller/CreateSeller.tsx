@@ -79,11 +79,11 @@ const CreateSeller: React.FC = () => {
       const response = await dispatch(createSeller(formData));
       if (createSeller.fulfilled.match(response)) {
         setSuccessMessage('Seller created successfully.');
-        console.log('Seller data uploaded successfully:');
         navigate(`/seller/dashboard/${user.user?._id}`)
       } else {
         setError('Failed to create seller. Please try again.');
-      }    } catch (error) {
+      }    
+    } catch (error) {
       setError('Failed to create seller. Please try again.');
       console.error('Create seller error:', error);
     }

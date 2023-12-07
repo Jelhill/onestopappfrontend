@@ -3,7 +3,7 @@ import { config } from '../../config';
 import { CarApiData } from './carInterfaces';
 
 export interface Car {
-    id: string;
+    _id: string;
     sellerId: string;
     make: string;
     model: string;

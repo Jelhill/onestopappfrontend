@@ -45,9 +45,9 @@ const RightDashboard: React.FC = () => {
     }
   }, [dispatch, sellerId]);
   
-  const handleViewDetails = (transactionId: string) => {
-    console.log("handleViewDetails", transactionId)
-  }
+  // const handleViewDetails = (transactionId: string) => {
+  // }
+
   return (
     <Container maxWidth="xl" sx={{ flexGrow: 1 }} style={{ marginTop: '100px' }}>
     <Typography variant="h6" sx={{ mb: 5 }}>
@@ -123,7 +123,7 @@ const RightDashboard: React.FC = () => {
                   <TableCell>{transaction?.paymentMethod}</TableCell>
                   <TableCell>{transaction?.status}</TableCell>
                   <TableCell>
-                    <Button variant="contained" onClick={() => handleViewDetails(transaction._id)}>
+                    <Button variant="contained">
                       View
                     </Button>
                   </TableCell>

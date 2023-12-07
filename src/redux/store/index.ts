@@ -3,6 +3,7 @@ import carsReducer from '../features/cars/carSlice';
 import userReducer from '../features/user/userSlice';
 import authReducer from '../features/auth/authSlice';
 import sellerReducer from '../features/seller/sellerSlice';
+import cartReducer from '../features/cart/cartSlice';
 import transactionReducer from '../features/transaction/transactionSlice';
 
 export const store = configureStore({
@@ -12,6 +13,7 @@ export const store = configureStore({
     seller: sellerReducer, 
     transactions: transactionReducer,
     auth: authReducer,
+    cart: cartReducer,
 
   },
 });
