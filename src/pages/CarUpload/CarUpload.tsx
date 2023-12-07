@@ -162,7 +162,7 @@ const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
       
 
       dispatch(uploadCar(formDataToSend)).unwrap()
-        .then(response => {
+        .then(() => {
           setSuccessMessage('Car data uploaded successfully');
           setFormData({
             make: '',
