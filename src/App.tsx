@@ -10,21 +10,25 @@ import { useAppDispatch } from './redux/hooks';
 import { isAuthenticated } from './utils/auth';
 import { setAuthenticated } from './redux/features/auth/authSlice';
 import CircularProgress from '@mui/material/CircularProgress';
+import { fetchCartItems } from './redux/features/cart/cartSlice';
 
 function App() {
   const dispatch = useAppDispatch();
   const [isAuthChecked, setIsAuthChecked] = useState(false);
 
   useEffect(() => {
-    const checkAuth = () => {
+    const checkAuth = async () => {
       const isAuth = isAuthenticated();
       dispatch(setAuthenticated(isAuth));
+      if (isAuth) {
+        dispatch(fetchCartItems());
+      }
       setIsAuthChecked(true);
     };
-
+  
     checkAuth();
   }, [dispatch]);
-
+  
   if (!isAuthChecked) {
     return (
       <Box display="flex" justifyContent="center" alignItems="center" height="100vh">

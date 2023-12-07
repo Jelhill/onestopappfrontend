@@ -1,5 +1,5 @@
 export interface Car {
-    id: string;
+    _id: string;
     sellerId: string;
     make: string;
     model: string;
@@ -39,6 +39,6 @@ export interface Car {
 
   export interface CarApiData {
     success: boolean,
-    data: [Car],
+    data: Car[]
     message: string
   }

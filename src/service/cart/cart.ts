@@ -33,6 +33,7 @@ class CartApi {
       // Return only the items array part of the response data
       return response.data.data.items;
     } catch (error) {
+      console.log("PPPP", this.token)
       console.error('Error fetching cart items:', error);
       throw error;
     }

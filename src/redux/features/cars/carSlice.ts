@@ -19,7 +19,7 @@ export const fetchCars = createAsyncThunk(
   'cars/fetchCars',
   async () => {
     const response = await CarService.getAllCars();
-    return response.data;
+    return response;
   }
 );
 
@@ -38,7 +38,6 @@ export const fetchCarsBySeller = createAsyncThunk(
     }
   }
 );
-
 
 export const uploadCar = createAsyncThunk(
   'cars/uploadCar',

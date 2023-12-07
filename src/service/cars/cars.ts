@@ -24,8 +24,6 @@ export interface Car {
     updated: Date;
   }
 
-
-
 class CarApi {
   private readonly BASE_URL: string;
 
@@ -33,11 +31,11 @@ class CarApi {
     this.BASE_URL = `${config.BASE_URL}/api/car`
   }
 
-  public async getAllCars(): Promise<CarApiData> {
+  public async getAllCars(): Promise<Car[]> {
     try {
       const response: AxiosResponse<CarApiData> = 
         await axios.get(`${this.BASE_URL}`);
-      return response.data;
+      return response?.data?.data;
     } catch (error) {
       console.error('Error fetching all cars:', error);
       throw error;

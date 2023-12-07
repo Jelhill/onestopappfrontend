@@ -15,8 +15,6 @@ import { fetchCartItems, removeFromCart } from '../../redux/features/cart/cartSl
 import { RootState } from '../../redux/store';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { Navbar } from '../../components/navbar';
-// import { selectIsAuthenticated } from '../../redux/features/auth/authSlice';
-// import { isAuthenticated } from '../../utils/auth';
 
 const CartPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -53,7 +51,7 @@ const CartPage: React.FC = () => {
             </TableHead>
             <TableBody>
               {cartItems.map((item) => (
-                <TableRow key={item?.id}>
+                <TableRow key={item?.car._id}>
                   <TableCell>
                     <Box display="flex" alignItems="center">
                       <img src={item?.car?.imageIds[0]} alt={`${item?.car?.make} ${item?.car?.model}`} style={{ height: '80px', marginRight: '16px' }} />
