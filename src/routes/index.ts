@@ -54,8 +54,13 @@ const routData = [
         path: '/cart',
         component: reviews.Cart,
         requiresAuth: true,
+    },
+    {
+        id: 'route-010',
+        path: '/checkout',
+        component: reviews.Checkout,
+        requiresAuth: true,
     }
-    
 ]
 
 export default routData;

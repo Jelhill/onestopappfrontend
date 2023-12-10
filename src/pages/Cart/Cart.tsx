@@ -15,9 +15,12 @@ import { fetchCartItems, removeFromCart } from '../../redux/features/cart/cartSl
 import { RootState } from '../../redux/store';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { Navbar } from '../../components/navbar';
+import { useNavigate } from 'react-router-dom';
 
 const CartPage: React.FC = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const cartItems = useAppSelector((state: RootState) => state.cart.items);
 
   useEffect(() => {
@@ -73,8 +76,9 @@ const CartPage: React.FC = () => {
           </Typography>
         </Box>
         <Box display="flex" justifyContent="flex-end" marginTop={2}>
-          <Button variant="contained" color="primary">Checkout</Button>
+          <Button variant="contained" color="primary" onClick={() => navigate("/checkout")}>Checkout</Button>
         </Box>
+   
       </Box>
     </>
   );
