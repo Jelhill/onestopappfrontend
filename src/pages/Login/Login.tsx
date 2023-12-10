@@ -42,6 +42,7 @@ const Login: React.FC = () => {
         setSuccessMessage("Success");
         dispatch(setAuthenticated(true));
         setTimeout(() => {
+          console.log(user.user)
           if(user.user?.isSeller) {
             navigate(`/seller/dashboard/${user.user?._id}`);
             return

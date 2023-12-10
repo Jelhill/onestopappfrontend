@@ -11,6 +11,7 @@ import { isAuthenticated } from './utils/auth';
 import { setAuthenticated } from './redux/features/auth/authSlice';
 import CircularProgress from '@mui/material/CircularProgress';
 import { fetchCartItems } from './redux/features/cart/cartSlice';
+import { fetchCars } from './redux/features/cars/carSlice';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -22,6 +23,7 @@ function App() {
       dispatch(setAuthenticated(isAuth));
       if (isAuth) {
         dispatch(fetchCartItems());
+        dispatch(fetchCars());
       }
       setIsAuthChecked(true);
     };
