@@ -30,6 +30,7 @@ const RightDashboard: React.FC = () => {
   const dispatch = useAppDispatch();
   const { sellerId } = useParams();
   const cars = useSelector((state: RootState) => state.cars.cars);
+  const carsBySeller = useSelector((state: RootState) => state.cars.carsBySeller);
   const user = useSelector((state: RootState) => state.user.user);
   const transactions = useSelector((state: RootState) => state.transactions.transactions);
   
@@ -55,7 +56,7 @@ const RightDashboard: React.FC = () => {
      <Grid item xs={12} sm={6} md={3}>
         <AppWidgetSummary
           title="Total Cars Uploaded"
-          total={cars.length}
+          total={carsBySeller.length}
           color="success"
           sx={{}}
           icon={<img alt="icon" src={img4} />}

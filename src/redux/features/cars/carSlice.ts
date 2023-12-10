@@ -5,12 +5,14 @@ import { Car } from '../../../service/cars/cars';
 
 interface CarState {
   cars: Car[];
+  carsBySeller: Car[],
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
 }
 
 const initialState: CarState = {
   cars: [],
+  carsBySeller: [],
   status: 'idle',
   error: null,
 };
@@ -78,7 +80,7 @@ export const carsSlice = createSlice({
       })
       .addCase(fetchCarsBySeller.fulfilled, (state, action: PayloadAction<Car[] | undefined>) => {
         state.status = 'succeeded';
-        state.cars = action.payload || [];
+        state.carsBySeller = action.payload || [];
       })
       .addCase(fetchCarsBySeller.rejected, (state, action) => {
         state.status = 'failed';
