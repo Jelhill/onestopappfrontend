@@ -4,28 +4,6 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import CarDetailsModal from '../carModalDetails/CarModalDetails';
 import BasicCard from './BasicCard';
 
-// export interface Car {
-//   id: string;
-//   sellerId: string;
-//   make: string;
-//   model: string;
-//   year: number;
-//   price: number;
-//   mileage?: number;
-//   fuelType?: string;
-//   transmission?: string;
-//   engine?: string;
-//   color?: string;
-//   condition?: string;
-//   description?: string;
-//   features?: string[];
-//   imageIds: string[];
-//   sold: boolean;
-//   salePrice?: number | null;
-//   created: Date;
-//   updated: Date;
-// }
-
 interface Car {
   _id: string; // Use _id instead of id
   sellerId: string;

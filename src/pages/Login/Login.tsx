@@ -9,7 +9,7 @@ import { RootState } from '../../redux/store';
 import { setAuthenticated } from '../../redux/features/auth/authSlice';
 
 const Login: React.FC = () => {
-
+  console.log("Login mounting")
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   // const location = useLocation();

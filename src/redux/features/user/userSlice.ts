@@ -83,7 +83,7 @@ export const fetchUserData = createAsyncThunk(
     async (token: string, { rejectWithValue }) => {
       try {
         const userData = await userService.fetchUserData(token);
-  
+        console.log("USER DATA", userData)
         return userData;
       } catch (error) {
         return rejectWithValue('An error occurred while fetching user data');

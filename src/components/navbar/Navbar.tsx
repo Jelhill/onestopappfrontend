@@ -12,17 +12,16 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from '../../redux/store';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../redux/hooks';
-import { fetchUserData } from '../../redux/features/user/userSlice';
+import { clearUser, fetchUserData } from '../../redux/features/user/userSlice';
 import { setAuthenticated } from '../../redux/features/auth/authSlice';
 import Badge from '@mui/material/Badge';
 import { isAuthenticated } from '../../utils/auth';
-
+import Logo from "../../assets/images/logo1.jpeg"
 const pages: string[] = ['Products', 'Pricing', 'Blog'];
 let settings: string[] = ['Profile', 'Account', 'Dashboard', 'Logout'];
 const authPages: string[] = ['Login', 'Signup'];
@@ -43,6 +42,12 @@ const ResponsiveAppBar: React.FC = () => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
+  useEffect(() => {
+    if (userToken) {
+      dispatch(fetchUserData(userToken));
+    }
+  }, [userToken, dispatch]);
+
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -58,6 +63,7 @@ const ResponsiveAppBar: React.FC = () => {
     if(setting === "Logout") {
       localStorage.removeItem("token")
       localStorage.removeItem("user")
+      dispatch(clearUser())
       dispatch(setAuthenticated(false));
       navigate("/")
     }
@@ -73,17 +79,10 @@ const ResponsiveAppBar: React.FC = () => {
     navigate(`/${route}`);
   };
 
-  useEffect(() => {
-    if (userToken) {
-      dispatch(fetchUserData(userToken));
-    }
-  }, [userToken, dispatch]);
-
   return (
     <AppBar position="fixed" sx={{ width: '100%' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Button onClick={() => navigate("/")}><Typography
             variant="h6"
             noWrap
@@ -98,7 +97,7 @@ const ResponsiveAppBar: React.FC = () => {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            <img src={Logo} style={{height: "50px", width: "50px"}}/>
           </Typography></Button>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -137,7 +136,7 @@ const ResponsiveAppBar: React.FC = () => {
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+
           <Typography
             variant="h5"
             noWrap
@@ -154,7 +153,7 @@ const ResponsiveAppBar: React.FC = () => {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            <img src={Logo} style={{height: "50px", width: "50px"}}/>
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (

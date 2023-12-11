@@ -4,6 +4,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions } from '@mui/material';
+import { thousandSeparator } from '../../utils/thousandSeparator';
 
 interface Car {
   _id: string;
@@ -49,6 +50,9 @@ const BasicCard: React.FC<Props> = ({ car, onViewCarInfo }) => {
         </Typography>
         <Typography variant="body2" color="text.secondary">
           {car.description}
+        </Typography>
+        <Typography variant="h6" color="text.secondary">
+          {thousandSeparator(car.price)}
         </Typography>
       </CardContent>
     </CardActionArea>
